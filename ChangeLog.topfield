@@ -1,0 +1,165 @@
+2007-06-01 Steve Bennett <steveb@workware.net.au>
+
+	* Version 0.7.4
+	* Fix APPE (append to file) so that it appends rather than overwrite
+	* STOU (store unique) is not supported, so return an error
+	* Login is always anonymous
+	* Disable crc check on received packets by default.
+	  Needed when using deadbeef's USB accelerator
+	  (http://forum.toppy.org.uk/forum/viewtopic.php?t=8655)
+
+2007-05-04 Steve Bennett <steveb@workware.net.au>
+
+	* Version 0.7.3
+	* Allow a client to pause a GET indefinitely while still allowing
+	  other clients to interrupt it if necessary
+	* Be a bit smarter about determining when to cancel an in-progress get
+	* Disable reverse DNS lookups by default -- enable with -R/--resolve-dns
+
+2007-04-17 Steve Bennett <steveb@workware.net.au>
+
+	* Version 0.7.2
+	* Fix a memory corruption bug when updating firmware which caused
+	  it to fail sometimes
+	* Show file times for files less than 1 year old
+	* Rename inside /turbo virtual directory now works even when
+	  full path names are used
+
+2007-02-26 Steve Bennett <steveb@workware.net.au>
+
+	* Version 0.7.1
+	* If a RESTART occurs past the end of a file, don't return random data
+	  past the end of the file.
+	* The 'SITE REBOOT' was not being accepted
+	* Show file times for files less than 1 year old
+
+2007-01-18 Steve Bennett <steveb@workware.net.au>
+
+	* Version 0.7.0
+	* Fix the ABOR commands so that the control connection is kept open
+	* When the client drops the data connection, keep the control connection
+	  open
+	* Clean up better in some circumstances so that the toppy doesn't get
+	  confused
+	* Add a /turbo virtual directory which makes it easier to fetch in turbo
+	  mode without a site command
+	* Add support for 'SITE REBOOT' to reboot the toppy
+	* If the client fails to accept the data in a timely manner, "pause"
+	  the usb connection so that the data connection doesn't need to be
+	  dropped.
+	* Add support for specifying one of several topfield devices with
+	  --device n, where 0 is the first device, 1 is the second, etc.
+	* Fix a problem where an OOB ABOR command would not be processed
+	  until the current transfer was finished
+
+2006-08-27 Steve Bennett <steveb@workware.net.au>
+
+	* Version 0.6.10
+	* Primitive support for EPSV to allow streaming via ftp from VLC
+	* Minor formatting change in listing to keep ncftp happy
+
+2006-07-15 Steve Bennett <steveb@workware.net.au>
+
+	* Version 0.6.9
+	* Allow multiple simultaneous client connections
+
+2006-07-15 Steve Bennett <steveb@workware.net.au>
+
+	* Version 0.6.8
+	* Remove an extra space in listing which confused some ftp clients
+
+2006-03-13 Peter Urbanec <toppy@urbanec.net>
+
+	* Version 0.6.7
+	* Implement puppy compatible USB locking to prevent triggering
+	  Linux kernel bugs on some platforms.
+
+2006-03-10 Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.6.6
+	* The boot loader really doesn't like usb packets which are
+	  a multiple of 512 bytes. We were just "lucky" before.
+
+2006-02-24 Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.6.5
+	* Ensure that odd size files can be transferred
+
+2006-02-02 Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.6.4
+	* Fix a buffer overflow when uploading firmware
+	* The boot loader doesn't like usb packets a multiple of 0x2400
+	* Fix a couple of printf/argument mismatches
+	* Add just enough configuration to support building on Mac OS X
+
+2006-01-06 Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.6.3
+	* Fix a bug where resuming RETRIEVEs did not take into account the fact
+	  that the topfield can only return data on a 512 byte boundary.
+
+2005-11-24 Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.6.2
+	* Add support for firmware upgrades by STOREing a .tfd file
+	  to the /firmware directory
+    * Disable eplf listing mode by default since not enough clients support it
+	  It can be enabled with --eplf
+	* Add topfield-specific info to the STAT command
+
+2005-09-11 Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.6.1
+	* Fix some problems with the padding in libtopfield.
+	  Previously files of certain sizes would hang on the last packet.
+
+2005-09-08 Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.6.0
+	* Better retrieve handling in the face of topfield USB and network errors:
+		* Don't give up on the topfield until we have 5 consecutive failures to
+		  get data from the topfield
+		* Make sure that if the transfer fails we return 550, not 226 so that
+	      the other end knows that there was a failure
+		* Recover from out-of-order packets received from the topfield during
+		  a get transfer so that the client doesn't end up with repeated data
+	* More extensive debugging
+	* Fix Makefile so a changed libtopfield really does get rebuilt
+	* Provide HDD free/total and turbo status in response to STAT command
+
+2005-08-30 Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.5.3
+	* Make sure libtopfield is rebuilt if needed
+	* When chdir (CWD) fails, send a more descriptive message
+	* Ensure that CWD is always reported with forward slashes, not backslashes
+	* Bring in peteru's fix to avoid sending packets which are a multiple of
+	  512 bytes to work around a topfield bug
+
+2005-06-21  Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.5.2
+	* Reduce default timeout to 5 minutes
+	* If overwriting existing file, delete the old file first
+	  since files are not truncated when writing
+	* Fix the directory listing when using sort order (e.g. ls -ltr)
+
+
+2005-06-10 Steve Bennett <msteveb@ozemail.com.au>
+
+	* After replying to ABOR, send 221 Goodbye
+	* By default, put the pid file in /var/run
+
+
+2005-04-06 Steve Bennett <msteveb@ozemail.com.au>
+
+	* Version 0.5.1
+	* Shorten the size field in noeplf mode
+	* Fix 'SITE IDLE NUMBER' which did not work
+	* Fix the 'SITE TURBO 0|1' command to work
+	* Add a --turbo option to enable turbo mode by default
+	* Change short form of --turbo option to -b
+	* Document the --noeplf option
+	* Fix auto-resuming of puts (which may fail due to USB timeouts)
+	* Reduce the default USB timeout to 1.1 seconds in line with puppy

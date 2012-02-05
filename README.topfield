@@ -1,0 +1,49 @@
+Tue Mar 22 21:08:01 EST 2005
+
+Steve Bennett <msteveb at ozemail.com.au>
+
+This ftpd is a severely hacked up version of inetutils ftpd from the
+uClinux distribution with the file access mechanisms replaces with
+appropriate libtopfield invocations.
+
+Currently there is no authentication (anonymous access only).
+
+There is one site command, turbo, which toggles the turbo setting.
+
+I run it as ftpd -D -P 2021 and then connect via lftp:
+$ lftp ftp://myhost:2021/
+
+Because of the way the Topfield USB protocol works, only a single client
+is accepted at any one time.
+
+Some other things you may find useful
+-------------------------------------
+- As of 0.6.2 you can upgrade the firmware by
+  changing to the /firmware directory and sending a .tfd file
+
+- Use the --eplf command line option to enable EPLF listing mode
+  if your ftp clients support it (lftp does)
+
+- Use the remote 'stat' command to see the disk space free
+  and some other settings.
+
+	lftp tonto:/DataFiles> quote stat
+	211- localhost.localdomain FTP server status:
+		 ftpd (Topfield ftpd) 0.6.2
+		 Connected to ganges.riverstone.dyndns.org (192.168.1.2)
+		 Logged in anonymously
+		 HDD Free    17283072 kiB   16878 MiB   16 GiB
+		 HDD Total  117219328 kiB  114472 MiB  111 GiB
+		 Turbo mode is DISABLED
+		 TYPE: ASCII, FORM: Nonprint; STRUcture: File; transfer MODE: Stream
+		 No data connection
+	211 End of status
+
+- Use the TURBO command to enable, disable or toggle turbo mode for the
+  current session
+
+	lftp tonto:/> site turbo 1
+	200 TURBO is now on
+
+- Use the --turbo option to enable turbo mode by default
+

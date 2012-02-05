@@ -1,0 +1,4 @@
+.bzr
+*.o
+CVS
+ftpd
